@@ -9,10 +9,13 @@
 
 (defparameter *acceptor* nil "A variable to hold the hunchentoot acceptor.")
 
-(defun start (&optional (port 80))
-  "Start the web server at port, then connect to the database."
+(defun start (&optional (port 80) (dir "./"))
+  "Start the web server at port, then connect to the database.
+dir is the directory where to find the javascript and css files,
+its name should end in a slash."
   (setf *acceptor* (hunchentoot:start (make-instance 'hunchentoot:easy-acceptor :port port)))
-  (postmodern:connect-toplevel *database* *dbuser* *dbpassword* *dbhost*))
+  (postmodern:connect-toplevel *database* *dbuser* *dbpassword* *dbhost*)
+  (push (hunchentoot:create-folder-dispatcher-and-handler "/include/" dir) hunchentoot:*dispatch-table*))
 
 (defun stop ()
   "Stop the web server and disconnect from the database."
@@ -115,21 +118,11 @@ then return the assignment with the correct id."
     (when (< day 10) (setf day (format nil "0~a" day)))
     (format nil "~a-~a-~a" year month day)))
 
-(dolist (e '(("/css.css" "css.css")
-	     ("/datepicker.css" "datepicker.css")
-	     ("/bootstrap-datepicker.js" "bootstrap-datepicker.js")
-	     ("/iefix.js" "iefix.js")))
-  (push (hunchentoot:create-static-file-dispatcher-and-handler (first e) (second e))
-	hunchentoot:*dispatch-table*))
-
 (defun get-days-left (time)
   "Return the number of remaining days to the universal-time time.
 The number may be zero or negative."
   (let ((seconds-left (- time (get-universal-time))))
     (ceiling (/ seconds-left 3600 24))))
-
-(hunchentoot:define-easy-handler (index :uri "/") ()
-  (hunchentoot:redirect "/index.html"))
 
 (defun hash-password (string salt &optional (nhashes 10))
   "Concatenate string and salt and hash the string with sha 256. Then hash the result nhashes times."
@@ -148,22 +141,3 @@ the same username. Testing is made with string=."
        (not (null u2))
        (string= (user-password u1) (user-password u2))
        (string= (user-username u1) (user-username u2))))
-
-(hunchentoot:define-easy-handler (add-do :uri "/add.do")
-    (name course deadline link mandatory bonus notes username password)
-  (let* ((admin-user (get-user username))
-	 (user (make-instance 'user
-			      :salt (user-salt admin-user)
-			      :password (hash-password password (user-salt admin-user))
-			      :username username)))
-    (if (user= admin-user user)
-	(progn (add-assignment (make-instance 'assignment
-					      :name name
-					      :course course
-					      :deadline deadline
-					      :link link
-					      :mandatory mandatory
-					      :bonus bonus
-					      :notes notes))
-	       (hunchentoot:redirect "/add.html?added"))
-	(get-page (html (:p :class "text-warning" "Fel användaramn eller lösenord."))))))

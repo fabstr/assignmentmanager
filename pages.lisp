@@ -5,13 +5,13 @@
 		      (:meta :http-equiv "Content-Type" :content "text/html; charset=utf-8")
 		      (:meta :name "viewport" :content "target-densitydpi=device-dpi, width=device-width, initial-scale=1.0, maximum-scale=1.0")
 		      (:link :rel "stylesheet" :href "//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css")
-		      (:link :rel "stylesheet" :href "/datepicker.css")
-		      (:link :rel "stylesheet" :href "/css.css")
+		      (:link :rel "stylesheet" :href "/include/datepicker.css")
+		      (:link :rel "stylesheet" :href "/include/css.css")
 		      (:script :src "https://code.jquery.com/jquery.js")
 		      (:script :src "//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js")
 		      (:script "$(function () {$(\".clickable\").click(function() {window.document.location = \"show.html?id=\" + $(this).attr(\"id\");});});")
-		      (:script :src "bootstrap-datepicker.js")
-		      (:script :src "iefix.js"))
+		      (:script :src "/include/bootstrap-datepicker.js")
+		      (:script :src "/include/iefix.js"))
 	       (:body (:div :class "container"
 			    (:h1 :class "center" "Labbhanterare")
 			    (:div :class "col-md-2" "&nbsp;")
@@ -21,6 +21,9 @@
 				      "&copy; 2013-2014 Fabian Ström" :br
 				      "Observera att informationen kanske inte är korrekt."))
 			    (:div :class "col-md-2" "&nbsp;"))))))
+
+(hunchentoot:define-easy-handler (index :uri "/") ()
+  (hunchentoot:redirect "/index.html"))
 
 (hunchentoot:define-easy-handler (index-html :uri "/index.html") ()
   (let ((assignments (get-all-assignments)))
