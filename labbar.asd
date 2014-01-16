@@ -2,12 +2,13 @@
 
 (asdf:defsystem #:labbar
   :serial t
-  :description "Describe labbar here"
-  :author "Your Name <your.name@example.com>"
-  :license "Specify license here"
+  :description "A simple system to handle assignments."
+  :author "Fabian Ström fs@fabianstrom.se"
+  :license "MIT"
   :depends-on (#:hunchentoot
                #:postmodern
                #:ironclad)
   :components ((:file "package")
-               (:file "labbar")))
-
+	       (:file "html-gen")
+               (:file "labbar")
+	       (:file "pages")))
