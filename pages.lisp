@@ -19,8 +19,7 @@
 				  content
 				  (:p :class "center foot"
 				      "&copy; 2013-2014 Fabian Ström" :br
-				      "Observera att informationen kanske inte är korrekt."))
-			    (:div :class "col-md-2" "&nbsp;"))))))
+				      "Observera att informationen kanske inte är korrekt.")))))))
 
 (hunchentoot:define-easy-handler (index :uri "/") ()
   (hunchentoot:redirect "/index.html"))
