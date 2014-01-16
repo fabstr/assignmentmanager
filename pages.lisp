@@ -1,4 +1,4 @@
-(in-package #:labbar)
+(in-package #:am)
 
 (defun get-page (content)
   (html (:html (:head (:title "Labbar")

@@ -1,6 +1,6 @@
 ;;;; labbar.asd
 
-(asdf:defsystem #:labbar
+(asdf:defsystem #:assignmentmanager
   :serial t
   :description "A simple system to handle assignments."
   :author "Fabian Ström fs@fabianstrom.se"
@@ -10,5 +10,5 @@
                #:ironclad)
   :components ((:file "package")
 	       (:file "html-gen")
-               (:file "labbar")
+               (:file "main")
 	       (:file "pages")))

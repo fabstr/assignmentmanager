@@ -1,6 +1,6 @@
 ;;;; labbar.lisp
 
-(in-package #:labbar)
+(in-package #:am)
 
 (defvar *database* "labbar")
 (defvar *dbuser* "lisp")

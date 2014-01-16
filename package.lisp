@@ -1,5 +1,7 @@
 ;;;; package.lisp
 
-(defpackage #:labbar
-  (:use #:cl))
+(defpackage #:am
+  (:use #:cl)
+  (:export :start
+           :stop))
 

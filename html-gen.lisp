@@ -1,6 +1,6 @@
 ;;;; html-gen.lisp
 
-(in-package #:labbar)
+(in-package #:am)
 
 (defmacro with-gensyms ((&rest names) &body body)
   "The with-gensyms macro, derived from Practical Common Lisp."
